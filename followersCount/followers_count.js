@@ -23,3 +23,11 @@ function checkContValue()
         alert("Your post gained 20 followers! Congratulations!"); 
     }
 }
+
+function resetCount()
+{
+    count = 0; 
+    document.getElementById('countDisplay').innerHTML = count;
+    alert("Follower Count has been reset to 0.");
+    return count; 
+}
