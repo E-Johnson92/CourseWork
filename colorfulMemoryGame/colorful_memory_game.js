@@ -33,18 +33,18 @@ function shuffle(array)
 function handleCardClick(event)
 {
     const card = event.target; 
-    if (!card.classList.contains('card') || card.classList.contains('matched'))
+    if (!card.classList.contains('card') || card.classList.contains('matched') || selectedCards.length >= 3)
     {
         return; 
     }
-    card.textContent = card.dataset.color; 
-    card.style.backgroundColor = card.dataset.color; 
-    selectedCards.push(card); 
+    if (selectedCards.length < 2){
+        card.textContent = card.dataset.color; 
+        card.style.backgroundColor = card.dataset.color; 
+        selectedCards.push(card); 
+    }
     if (selectedCards.length === 2)
     { 
-        gameContainer.disabled = true; 
-        setTimeout(checkMatch, 500); 
-        gameContainer.disabled = false; 
+      setTimeout(checkMatch,500); 
     }
 }
 
