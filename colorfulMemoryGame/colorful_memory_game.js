@@ -2,7 +2,7 @@ const colors = ['red', 'blue', 'green', 'purple', 'orange', 'pink', 'red', 'blue
 let cards = shuffle(colors.concat(colors)); 
 let selectedCards = []; 
 let score = 0; 
-let timeLeft = 30; 
+let timeLeft = 0; 
 let gameInterval; 
 
 const startBtn = document.getElementById('startbtn'); 
@@ -33,13 +33,14 @@ function shuffle(array)
 function handleCardClick(event)
 {
     const card = event.target; 
-    if (!card.classList.contains('card') || card.classList.contains('matched') || selectedCards.length >= 3)
+    if (!card.classList.contains('card') || card.classList.contains('selected') || card.classList.contains('matched') || selectedCards.length >= 3)
     {
         return; 
     }
     if (selectedCards.length < 2){
         card.textContent = card.dataset.color; 
         card.style.backgroundColor = card.dataset.color; 
+        card.classList.add('selected'); 
         selectedCards.push(card); 
     }
     if (selectedCards.length === 2)
@@ -65,6 +66,8 @@ function checkMatch()
         card2.textContent = '?'; 
         card1.style.backgroundColor = '#ddd'; 
         card2.style.backgroundColor = '#ddd'; 
+        card1.classList.remove('selected');
+        card2.classList.remove('selected'); 
     }
      
     selectedCards = []; 
@@ -72,7 +75,8 @@ function checkMatch()
 
 function startGame()
 {
-    let timeLeft = 30; 
+    
+    timeLeft = 30; 
     startBtn.disabled = true; 
     score = 0; 
     scoreElement.textContent = `Score: ${score}`; 
@@ -94,9 +98,10 @@ function startGameTimer(timeLeft)
         if (timeLeft === 0)
         {
             clearInterval(gameInterval);
-            let timeleft = 30; 
+            gameContainer.removeEventListener('click',handleCardClick); 
             alert("Game Over!"); 
             startBtn.disabled = false; 
+             
         }
     }, 1000); 
 }
